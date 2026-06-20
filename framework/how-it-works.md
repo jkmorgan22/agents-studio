@@ -114,13 +114,18 @@ The team defaults to free and open source tools at all times. No agent will appr
 
 ## Updating the Team
 
-To update an agent, edit their markdown file in this repo. The change applies to every project that references this library. Use git history to track what changed and roll back if needed.
+To update an existing agent, edit their markdown file in `/agents/core` or `/agents/aliases`. Because these files are symlinked into the global `~/.claude/agents/` directory, the change is live everywhere immediately — no extra step needed. Use git history to track what changed and roll back if needed.
 
 ---
 
 ## Adding a New Agent
 
-1. Create a new file in `/agents/core/` following the same structure as existing agents
-2. Add an alias file in `/agents/aliases/` for their role name
-3. Update this document and the README roster
-4. Tag Atlas so he knows a new team member has joined
+1. Create a new file in `/agents/core/` following the same structure as existing agents, including YAML frontmatter at the top (`name: <id>` and a one-to-two sentence `description` of when to invoke them)
+2. Add an alias file in `/agents/aliases/` for their role name, with its own frontmatter (a distinct `name`) and a body that redirects to the absolute path of the core file, e.g. "Read and fully adopt all instructions defined in `/Users/jkmorgan/Documents/agents-studio/agents/core/<id>.md`"
+3. Symlink both new files into `~/.claude/agents/` — this is the step that actually makes `@<id>` and `@<alias>` invokable; without it, the new agent exists in the repo but isn't live:
+   ```
+   ln -sf ~/Documents/agents-studio/agents/core/<id>.md ~/.claude/agents/<id>.md
+   ln -sf ~/Documents/agents-studio/agents/aliases/<alias>.md ~/.claude/agents/<alias>.md
+   ```
+4. Update this document and the README roster
+5. Tag Atlas so he knows a new team member has joined

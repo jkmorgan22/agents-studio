@@ -94,6 +94,14 @@ README.md
 
 ---
 
+## Making Agents Invokable as `@name`
+
+Every file in `/agents/core` and `/agents/aliases` carries a small YAML frontmatter block (`name` + `description`) that registers it as a real Claude Code subagent. They're symlinked into the global `~/.claude/agents/` directory, which is what makes `@atlas`, `@orchestrator`, etc. work as live invocations in any project on this machine — not just inside this repo.
+
+Editing an existing agent's file here updates it everywhere immediately, since the symlinks point straight back to this repo. Adding a brand-new agent requires one extra step beyond writing the file — see "Adding a New Agent" in `/framework/how-it-works.md`.
+
+---
+
 ## How Ideas Flow Through the Team
 
 ```
